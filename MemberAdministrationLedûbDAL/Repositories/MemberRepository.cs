@@ -12,11 +12,9 @@ namespace MemberAdministrationLedûbDAL.Repositories
 {
     public class MemberRepository : IMemberRepository
     {
-        private readonly string _connectionString;
-
         private readonly DataContext _context;
 
-        public MemberRepository(IConfiguration configuration, DataContext context)
+        public MemberRepository(DataContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -62,21 +60,20 @@ namespace MemberAdministrationLedûbDAL.Repositories
         {
             var member = _context.Members.Find(id);
 
-            //if (member == null)
-            //{
-            //    // Handle not found case
-            //    return null;
-            //}
+            if (member == null)
+            {
+                // Handle not found case
+                return null;
+            }
 
-            //// Remove related records from the TeamMember table
-            //var teamMembers = _context.TeamMembers.Where(tm => tm.MemberId == id);
-            //_context.TeamMembers.RemoveRange(teamMembers);
+            // Execute raw SQL to delete related entries from TeamMembers table
+            _context.Database.ExecuteSqlRaw("DELETE FROM TeamMembers WHERE MemberId = {0}", id);
 
-            //// Remove the member from the context
-            //_context.Members.Remove(member);
+            // Remove the member from the context
+            _context.Members.Remove(member);
 
-            //// Save changes to the database
-            //_context.SaveChanges();
+            // Save changes to the database
+            _context.SaveChanges();
 
             return member;
         }

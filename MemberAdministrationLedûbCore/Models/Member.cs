@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -10,10 +11,11 @@ namespace MemberAdministrationLedûbCore.Models
 {
     public class Member
     {
-        [JsonIgnore]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
-        public List<Team> Teams { get; set; }
+        [JsonIgnore]
+        [NotMapped]
+        public List<Team> Teams { get; set; } = new();
     }
 }
