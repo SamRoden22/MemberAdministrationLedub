@@ -42,12 +42,9 @@ namespace MemberAdministrationLedûbDAL.Repositories
             var existingMember = _context.Members.Find(id);
             if (existingMember == null)
             {
-                // Handle not found case
-                // For example, throw an exception or return null
                 return null;
             }
-
-            // Update properties of the existing member with values from updatedMember
+            
             existingMember.Name = updatedMember.Name;
             existingMember.Position = updatedMember.Position;
 
