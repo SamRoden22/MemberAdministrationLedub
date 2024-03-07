@@ -62,17 +62,19 @@ namespace MemberAdministrationLedûbDAL.Repositories
 
             if (member == null)
             {
-                // Handle not found case
                 return null;
             }
-
-            // Execute raw SQL to delete related entries from TeamMembers table
-            _context.Database.ExecuteSqlRaw("DELETE FROM TeamMembers WHERE MemberId = {0}", id);
-
-            // Remove the member from the context
+            
+            foreach (var team in member.Teams)
+            {
+                var teamMember = team.Members.FirstOrDefault(tm => tm.Id == member.Id);
+                if (teamMember != null)
+                {
+                    team.Members.Remove(teamMember);
+                }
+            }
+            
             _context.Members.Remove(member);
-
-            // Save changes to the database
             _context.SaveChanges();
 
             return member;
