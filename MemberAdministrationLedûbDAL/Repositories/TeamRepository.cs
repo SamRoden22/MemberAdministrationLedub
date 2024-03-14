@@ -25,7 +25,8 @@ namespace MemberAdministrationLedûbDAL.Repositories
 
         public Team Get(int id)
         {
-            return _context.Teams.FirstOrDefault(t => t.Id == id);
+            var team = _context.Teams.Include(t => t.Members).FirstOrDefault(t => t.Id == id);
+            return team;
         }
 
         public Team Create(Team team, List<int> memberIds)
@@ -33,7 +34,7 @@ namespace MemberAdministrationLedûbDAL.Repositories
             _context.Teams.Add(team);
             _context.SaveChanges();
             
-            var newTeam = _context.Teams.FirstOrDefault(t => t.Id == team.Id);
+            var newTeam = _context.Teams.Include(m => m.Members).FirstOrDefault(t => t.Id == team.Id);
             
             foreach (var memberId in memberIds)
             {
