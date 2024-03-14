@@ -13,7 +13,6 @@ namespace MemberAdministrationLedûbCore.Models
         public int Id { get; set; }
         public string Name { get; set; }
         [JsonIgnore]
-        [NotMapped]
         public List<Member> Members { get; set; } = new();
     }
 }

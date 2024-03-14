@@ -15,7 +15,6 @@ namespace MemberAdministrationLedûbCore.Models
         public string Name { get; set; }
         public string Position { get; set; }
         [JsonIgnore]
-        [NotMapped]
         public List<Team> Teams { get; set; } = new();
     }
 }

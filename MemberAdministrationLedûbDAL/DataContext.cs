@@ -16,8 +16,15 @@ namespace MemberAdministrationLedûbDAL
 
         }
 
-        public DbSet<Member> Members { get; set; }
+        public DbSet<TeamMembers> TeamMembers { get; set; }
 
         public DbSet<Team> Teams { get; set; }
+
+        public DbSet<Member> Members { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

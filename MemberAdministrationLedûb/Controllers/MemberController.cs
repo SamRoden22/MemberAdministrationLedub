@@ -45,7 +45,7 @@ namespace MemberAdministrationLedûb.Controllers
         [HttpPut("{id}")]
         public Member Put(int id, [FromBody] Member value)
         {
-            var existingMember = _memberService.Get(id);
+            //var existingMember = _memberService.Get(id);
             var member = _memberService.Update(id, value);
             return member;
         }
