@@ -50,9 +50,37 @@ namespace MemberAdministrationLedûbDAL.Repositories
             return newTeam;
         }
 
-        public Team Update(int id, List<int> memberIds)
+        public Team Update(int id, Team updatedTeam, List<int> memberIds)
         {
-            return null;
+            var existingTeam = _context.Teams
+                .Include(t => t.Members)
+                .FirstOrDefault(t => t.Id == id);
+
+            if (existingTeam != null)
+            {
+                existingTeam.Name = updatedTeam.Name;
+                
+                foreach (var existingTeamMember in existingTeam.Members.ToList())
+                {
+                    if (!memberIds.Contains(existingTeamMember.Id))
+                    {
+                        existingTeam.Members.Remove(existingTeamMember);
+                    }
+                }
+                
+                foreach (var memberId in memberIds)
+                {
+                    var member = _context.Members.FirstOrDefault(t => t.Id == memberId);
+                    if (member != null)
+                    {
+                        existingTeam.Members.Add(member);
+                    }
+                }
+
+                _context.SaveChanges();
+            }
+
+            return existingTeam;
         }
 
         public Team Delete(int id)

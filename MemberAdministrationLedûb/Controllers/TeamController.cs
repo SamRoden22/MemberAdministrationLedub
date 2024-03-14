@@ -48,10 +48,10 @@ namespace MemberAdministrationLedûb.Controllers
 
         // PUT api/<TeamController>/5
         [HttpPut("{id}")]
-        public Team Put(int id, [FromBody] string value)
+        public Team Put(int id, [FromBody] TeamViewModel updatedTeam)
         {
-            //var team = _teamService.Update(id, value);
-            return null;
+            var team = _teamService.Update(id, updatedTeam.Team, updatedTeam.MemberIds);
+            return team;
         }
 
         // DELETE api/<TeamController>/5

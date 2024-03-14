@@ -33,9 +33,9 @@ namespace MemberAdministrationLedûbCore.Services
             return _teamRepository.Create(team, memberIds);
         }
 
-        public Team Update(int id, List<int> memberIds)
+        public Team Update(int id, Team updatedTeam, List<int> memberIds)
         {
-            return _teamRepository.Update(id, memberIds);
+            return _teamRepository.Update(id, updatedTeam, memberIds);
         }
 
         public Team Delete(int id)

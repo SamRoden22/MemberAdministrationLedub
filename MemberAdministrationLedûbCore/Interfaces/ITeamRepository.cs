@@ -15,7 +15,7 @@ namespace MemberAdministrationLedûbCore.Interfaces
 
         public Team Create(Team team, List<int> memberIds);
 
-        public Team Update(int id, List<int> memberIds);
+        public Team Update(int id, Team updatedTeam, List<int> memberIds);
 
         public Team Delete(int id);
     }
