@@ -62,7 +62,7 @@ namespace MemberAdministrationLedûbDAL.Repositories
                 
                 foreach (var existingTeamMember in existingTeam.Members.ToList())
                 {
-                    if (!memberIds.Contains(existingTeamMember.Id))
+                    if (memberIds.Contains(existingTeamMember.Id))
                     {
                         existingTeam.Members.Remove(existingTeamMember);
                     }

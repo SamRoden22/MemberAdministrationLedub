@@ -19,6 +19,7 @@ namespace MemberAdministrationLedûb.Controllers
 
         // GET: api/<MemberController>
         [HttpGet]
+        [Route("GetAllMembers")]
         public List<Member> Get()
         {
             var members = _memberService.GetAll();
@@ -26,7 +27,8 @@ namespace MemberAdministrationLedûb.Controllers
         }
 
         // GET api/<MemberController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetSpecificMember/{id}")]
         public Member Get(int id)
         {
             var member = _memberService.Get(id);
@@ -35,6 +37,7 @@ namespace MemberAdministrationLedûb.Controllers
 
         // POST api/<MemberController>
         [HttpPost]
+        [Route("PostMember")]
         public Member Post([FromBody] Member value)
         {
             var member = _memberService.Create(value);
@@ -42,7 +45,8 @@ namespace MemberAdministrationLedûb.Controllers
         }
 
         // PUT api/<MemberController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
+        [Route("PutMember/{id}")]
         public Member Put(int id, [FromBody] Member value)
         {
             //var existingMember = _memberService.Get(id);
@@ -51,7 +55,8 @@ namespace MemberAdministrationLedûb.Controllers
         }
 
         // DELETE api/<MemberController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeleteMember/{id}")]
         public Member Delete(int id)
         {
             var member = _memberService.Delete(id);

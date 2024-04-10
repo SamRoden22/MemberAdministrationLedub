@@ -1,12 +1,5 @@
 ﻿using MemberAdministrationLedûbCore.Interfaces;
 using MemberAdministrationLedûbCore.Models;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace MemberAdministrationLedûbDAL.Repositories
 {
@@ -28,7 +21,7 @@ namespace MemberAdministrationLedûbDAL.Repositories
         {
             return _context.Members.FirstOrDefault(m => m.Id == id);
         }
-
+        
         public Member Create(Member member)
         {
             _context.Members.Add(member);
@@ -36,7 +29,7 @@ namespace MemberAdministrationLedûbDAL.Repositories
 
             return member;
         }
-
+        
         public Member Update(int id, Member updatedMember)
         {
             var existingMember = _context.Members.Find(id);
@@ -52,7 +45,7 @@ namespace MemberAdministrationLedûbDAL.Repositories
 
             return existingMember;
         }
-
+        
         public Member Delete(int id)
         {
             var member = _context.Members.Find(id);

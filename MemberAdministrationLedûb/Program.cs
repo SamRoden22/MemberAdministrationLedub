@@ -28,7 +28,7 @@ builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 
 var app = builder.Build();
 
-app.UseCors(c => c.WithOrigins("https://localhost:7192")
+app.UseCors(c => c.WithOrigins("http://localhost:3000")
     .AllowAnyHeader()
     .WithMethods("GET", "POST", "PUT", "DELETE")
     .AllowCredentials());
