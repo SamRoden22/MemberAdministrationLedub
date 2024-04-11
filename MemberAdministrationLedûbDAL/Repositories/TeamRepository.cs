@@ -31,11 +31,28 @@ namespace MemberAdministrationLedûbDAL.Repositories
 
         public Team Create(Team team, List<int> memberIds)
         {
+            if (team == null)
+            {
+                throw new ArgumentNullException(nameof(team));
+            }
+
+            if (memberIds == null)
+            {
+                throw new ArgumentNullException(nameof(memberIds));
+            }
+
+            // Validate memberIds
+            var existingMembers = _context.Members.Where(m => memberIds.Contains(m.Id)).ToList();
+            if (existingMembers.Count != memberIds.Count)
+            {
+                throw new KeyNotFoundException("One or more member IDs are invalid.");
+            }
+
             _context.Teams.Add(team);
             _context.SaveChanges();
             
             var newTeam = _context.Teams.Include(m => m.Members).FirstOrDefault(t => t.Id == team.Id);
-            
+
             foreach (var memberId in memberIds)
             {
                 var member = _context.Members.FirstOrDefault(m => m.Id == memberId);
@@ -52,36 +69,51 @@ namespace MemberAdministrationLedûbDAL.Repositories
 
         public Team Update(int id, Team updatedTeam, List<int> memberIds)
         {
+            if (updatedTeam == null)
+            {
+                throw new ArgumentNullException(nameof(updatedTeam));
+            }
+
+            if (memberIds == null)
+            {
+                throw new ArgumentNullException(nameof(memberIds));
+            }
+
             var existingTeam = _context.Teams
                 .Include(t => t.Members)
                 .FirstOrDefault(t => t.Id == id);
 
-            if (existingTeam != null)
+            if (existingTeam == null)
             {
-                existingTeam.Name = updatedTeam.Name;
-                
-                foreach (var existingTeamMember in existingTeam.Members.ToList())
-                {
-                    if (memberIds.Contains(existingTeamMember.Id))
-                    {
-                        existingTeam.Members.Remove(existingTeamMember);
-                    }
-                }
-                
-                foreach (var memberId in memberIds)
-                {
-                    var member = _context.Members.FirstOrDefault(t => t.Id == memberId);
-                    if (member != null)
-                    {
-                        existingTeam.Members.Add(member);
-                    }
-                }
-
-                _context.SaveChanges();
+                return null;
             }
+
+            existingTeam.Name = updatedTeam.Name;
+
+            // Validate memberIds
+            var existingMembers = _context.Members.Where(m => memberIds.Contains(m.Id)).ToList();
+            if (existingMembers.Count != memberIds.Count)
+            {
+                throw new KeyNotFoundException("One or more member IDs are invalid.");
+            }
+
+            existingTeam.Members.Clear();
+
+            foreach (var memberId in memberIds)
+            {
+                var member = existingMembers.FirstOrDefault(m => m.Id == memberId);
+                if (member != null)
+                {
+                    existingTeam.Members.Add(member);
+                }
+            }
+
+            _context.SaveChanges();
 
             return existingTeam;
         }
+
+
 
         public Team Delete(int id)
         {

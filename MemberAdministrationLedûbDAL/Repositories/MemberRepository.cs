@@ -24,6 +24,11 @@ namespace MemberAdministrationLedûbDAL.Repositories
         
         public Member Create(Member member)
         {
+            if (member == null)
+            {
+                throw new ArgumentNullException(nameof(member));
+            }
+
             _context.Members.Add(member);
             _context.SaveChanges();
 
