@@ -1,4 +1,4 @@
-namespace MemberAdministrationLedûb
+namespace MemberAdministrationLedub
 {
     public class WeatherForecast
     {

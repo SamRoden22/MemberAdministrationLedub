@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MemberAdministrationLedûbCore.Interfaces;
-using MemberAdministrationLedûbCore.Models;
+using MemberAdministrationLedubCore.Interfaces;
+using MemberAdministrationLedubCore.Models;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
-namespace MemberAdministrationLedûbCore.Services
+namespace MemberAdministrationLedubCore.Services
 {
     public class TeamService : ITeamService
     {

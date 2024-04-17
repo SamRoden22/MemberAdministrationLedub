@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MemberAdministrationLedûbCore.Models.Enums
+namespace MemberAdministrationLedubCore.Models.Enums
 {
     public enum Position
     {

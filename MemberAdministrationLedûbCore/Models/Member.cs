@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using MemberAdministrationLedûbCore.Models.Enums;
+using MemberAdministrationLedubCore.Models.Enums;
 
-namespace MemberAdministrationLedûbCore.Models
+namespace MemberAdministrationLedubCore.Models
 {
     public class Member
     {

@@ -1,7 +1,7 @@
-﻿using MemberAdministrationLedûbCore.Interfaces;
-using MemberAdministrationLedûbCore.Models;
+﻿using MemberAdministrationLedubCore.Interfaces;
+using MemberAdministrationLedubCore.Models;
 
-namespace MemberAdministrationLedûbDAL.Repositories
+namespace MemberAdministrationLedubDAL.Repositories
 {
     public class MemberRepository : IMemberRepository
     {

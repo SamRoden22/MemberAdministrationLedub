@@ -1,7 +1,7 @@
-using MemberAdministrationLedûbCore.Interfaces;
-using MemberAdministrationLedûbCore.Services;
-using MemberAdministrationLedûbDAL;
-using MemberAdministrationLedûbDAL.Repositories;
+using MemberAdministrationLedubCore.Interfaces;
+using MemberAdministrationLedubCore.Services;
+using MemberAdministrationLedubDAL;
+using MemberAdministrationLedubDAL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;

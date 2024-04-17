@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MemberAdministrationLedûbCore.Models
+namespace MemberAdministrationLedubCore.Models
 {
     public class TeamMembers
     {

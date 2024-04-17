@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace MemberAdministrationLedûb.Controllers
+namespace MemberAdministrationLedub.Controllers
 {
     [ApiController]
     [Route("[controller]")]

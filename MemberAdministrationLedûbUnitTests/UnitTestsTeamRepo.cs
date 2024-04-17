@@ -1,15 +1,15 @@
-﻿using MemberAdministrationLedûbCore.Interfaces;
-using MemberAdministrationLedûbDAL;
+﻿using MemberAdministrationLedubCore.Interfaces;
+using MemberAdministrationLedubDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MemberAdministrationLedûbDAL.Repositories;
+using MemberAdministrationLedubDAL.Repositories;
 using Microsoft.EntityFrameworkCore;
-using MemberAdministrationLedûbCore.Models;
+using MemberAdministrationLedubCore.Models;
 
-namespace MemberAdministrationLedûbUnitTests
+namespace MemberAdministrationLedubUnitTests
 {
     [TestFixture]
     public class UnitTestsTeamRepo

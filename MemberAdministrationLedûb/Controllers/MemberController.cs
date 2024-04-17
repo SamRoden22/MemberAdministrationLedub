@@ -1,10 +1,10 @@
-﻿using MemberAdministrationLedûbCore.Interfaces;
-using MemberAdministrationLedûbCore.Models;
+﻿using MemberAdministrationLedubCore.Interfaces;
+using MemberAdministrationLedubCore.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace MemberAdministrationLedûb.Controllers
+namespace MemberAdministrationLedub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

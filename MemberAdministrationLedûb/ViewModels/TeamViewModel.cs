@@ -1,6 +1,6 @@
-﻿using MemberAdministrationLedûbCore.Models;
+﻿using MemberAdministrationLedubCore.Models;
 
-namespace MemberAdministrationLedûb.ViewModels
+namespace MemberAdministrationLedub.ViewModels
 {
     public class TeamViewModel
     {

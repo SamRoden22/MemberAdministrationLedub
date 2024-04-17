@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MemberAdministrationLedûbCore.Models;
+using MemberAdministrationLedubCore.Models;
 
-namespace MemberAdministrationLedûbCore.Interfaces
+namespace MemberAdministrationLedubCore.Interfaces
 {
     public interface IMemberService
     {

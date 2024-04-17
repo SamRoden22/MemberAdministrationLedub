@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MemberAdministrationLedûbCore.Models;
+using MemberAdministrationLedubCore.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace MemberAdministrationLedûbDAL
+namespace MemberAdministrationLedubDAL
 {
     public class DataContext : DbContext
     {

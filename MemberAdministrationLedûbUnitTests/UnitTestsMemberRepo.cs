@@ -1,7 +1,7 @@
-﻿using MemberAdministrationLedûbCore.Interfaces;
-using MemberAdministrationLedûbCore.Models;
-using MemberAdministrationLedûbDAL;
-using MemberAdministrationLedûbDAL.Repositories;
+﻿using MemberAdministrationLedubCore.Interfaces;
+using MemberAdministrationLedubCore.Models;
+using MemberAdministrationLedubDAL;
+using MemberAdministrationLedubDAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MemberAdministrationLedûbUnitTests
+namespace MemberAdministrationLedubUnitTests
 {
     public class UnitTestsMemberRepo
     {

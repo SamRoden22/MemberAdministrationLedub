@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MemberAdministrationLedûbDAL.Migrations
+namespace MemberAdministrationLedubDAL.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
