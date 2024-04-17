@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MemberAdministrationLedûbDAL\MemberAdministrationLedubDAL.csproj" />
+    <ProjectReference Include="..\MemberAdministrationLedubDAL\MemberAdministrationLedubDAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,0 @@
-@MemberAdministrationLedûb_HostAddress = http://localhost:5173
-
-GET {{MemberAdministrationLedûb_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
