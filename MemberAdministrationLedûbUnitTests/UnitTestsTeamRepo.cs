@@ -40,7 +40,6 @@ namespace MemberAdministrationLedûbUnitTests
         [Test]
         public void Get_ReturnsAllTeams()
         {
-            // Arrange
             var teams = new List<Team>
             {
                 new() { Id = 1, Name = "Team 1" },
@@ -48,11 +47,9 @@ namespace MemberAdministrationLedûbUnitTests
             };
             _context.Teams.AddRange(teams);
             _context.SaveChanges();
-
-            // Act
+            
             var result = _repository.Get();
-
-            // Assert
+            
             Assert.AreEqual(2, result.Count);
             Assert.AreEqual("Team 1", result.First().Name);
             Assert.AreEqual("Team 2", result.Last().Name);
@@ -143,67 +140,54 @@ namespace MemberAdministrationLedûbUnitTests
         [Test]
         public void Create_FailsToAddNullTeam()
         {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() => _repository.Create(null, new List<int>()));
         }
 
         [Test]
         public void Create_FailsWithNullMemberIds()
         {
-            // Arrange
             var team = new Team { Name = "New Team" };
-
-            // Act & Assert
+            
             Assert.Throws<ArgumentNullException>(() => _repository.Create(team, null));
         }
 
         [Test]
         public void Create_FailsWithInvalidMemberIds()
         {
-            // Arrange
             var team = new Team { Name = "New Team" };
-
-            // Act & Assert
+            
             Assert.Throws<KeyNotFoundException>(() => _repository.Create(team, new List<int> { 1, 2 }));
         }
 
         [Test]
         public void Update_ReturnsNullForNonExistingTeam()
         {
-            // Arrange
             var team = new Team { Id = 1, Name = "New Team" };
-
-            // Act
+            
             var result = _repository.Update(1, team, new List<int>());
-
-            // Assert
+            
             Assert.IsNull(result);
         }
 
         [Test]
         public void Update_FailsWithNullTeam()
         {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() => _repository.Update(1, null, new List<int>()));
         }
 
         [Test]
         public void Update_FailsWithNullMemberIds()
         {
-            // Arrange
             var team = new Team { Id = 1, Name = "New Team" };
-
-            // Act & Assert
+            
             Assert.Throws<ArgumentNullException>(() => _repository.Update(1, team, null));
         }
 
         [Test]
         public void Delete_ReturnsNullForNonExistingTeam()
         {
-            // Act
             var result = _repository.Delete(1);
-
-            // Assert
+            
             Assert.IsNull(result);
         }
     }

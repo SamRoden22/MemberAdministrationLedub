@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberAdministrationLedûb", "MemberAdministrationLedûb\MemberAdministrationLedûb.csproj", "{AB3B274D-D904-455F-8C12-471ACF16BBF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberAdministrationLedub", "MemberAdministrationLedûb\MemberAdministrationLedub.csproj", "{AB3B274D-D904-455F-8C12-471ACF16BBF4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6CAC4924-4474-4840-A64B-AC3F6384DEFA} = {6CAC4924-4474-4840-A64B-AC3F6384DEFA}
 		{AF9AECCF-2086-4A9E-97EE-7508D589654D} = {AF9AECCF-2086-4A9E-97EE-7508D589654D}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberAdministrationLedûbCore", "MemberAdministrationLedûbCore\MemberAdministrationLedûbCore.csproj", "{6CAC4924-4474-4840-A64B-AC3F6384DEFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberAdministrationLedubCore", "MemberAdministrationLedûbCore\MemberAdministrationLedubCore.csproj", "{6CAC4924-4474-4840-A64B-AC3F6384DEFA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberAdministrationLedûbDAL", "MemberAdministrationLedûbDAL\MemberAdministrationLedûbDAL.csproj", "{AF9AECCF-2086-4A9E-97EE-7508D589654D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberAdministrationLedubDAL", "MemberAdministrationLedûbDAL\MemberAdministrationLedubDAL.csproj", "{AF9AECCF-2086-4A9E-97EE-7508D589654D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6CAC4924-4474-4840-A64B-AC3F6384DEFA} = {6CAC4924-4474-4840-A64B-AC3F6384DEFA}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberAdministrationLedûbUnitTests", "MemberAdministrationLedûbUnitTests\MemberAdministrationLedûbUnitTests.csproj", "{2838415F-85F4-4A02-B413-F374EA080220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberAdministrationLedubUnitTests", "MemberAdministrationLedûbUnitTests\MemberAdministrationLedubUnitTests.csproj", "{2838415F-85F4-4A02-B413-F374EA080220}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6CAC4924-4474-4840-A64B-AC3F6384DEFA} = {6CAC4924-4474-4840-A64B-AC3F6384DEFA}
 		{AB3B274D-D904-455F-8C12-471ACF16BBF4} = {AB3B274D-D904-455F-8C12-471ACF16BBF4}
