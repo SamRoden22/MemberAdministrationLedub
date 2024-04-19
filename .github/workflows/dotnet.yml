@@ -31,7 +31,7 @@ jobs:
       run: dotnet build /p:RunAnalyzers=true
 
     - name: Install StyleCop
-      run: dotnet tool install -g StyleCop.Console
+      run: dotnet tool install -g StyleCop.Console --add-source https://api.nuget.org/v3/index.json
 
     - name: Run StyleCop
       run: dotnet build /p:StyleCopEnabled=true
