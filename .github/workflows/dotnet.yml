@@ -27,13 +27,6 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     # Static Code Analysis Steps
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        projectBaseDir: ./MemberAdministrationLedub
-
     - name: Run Roslyn Analyzers
       run: dotnet build /p:RunAnalyzers=true
 
