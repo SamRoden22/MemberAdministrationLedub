@@ -1,34 +1,41 @@
-name: .NET
+name: .NET Core with StyleCop
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:8.0.x  # Use the .NET SDK version that matches your project's target framework
+
+    services:
+      stylecop:
+        image: mcr.microsoft.com/dotnet/sdk:8.0.x  # Use the same .NET SDK version as the container
+        options: --entrypoint /bin/sh
+        ports:
+          - 80:80
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 8.0.x
 
-    # Build and Test Steps
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-    # Static Code Analysis Steps
-    - name: Install StyleCop
-      run: dotnet tool install -g StyleCop.Console
-
     - name: Run StyleCop
       run: dotnet build /p:StyleCopEnabled=true
+
+    - name: Run Roslyn Analyzers
+      run: dotnet build /p:RunAnalyzers=true
