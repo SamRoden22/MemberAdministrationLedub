@@ -1,4 +1,4 @@
-name: .NET Core with StyleCop
+name: .NET Core CI
 
 on:
   push:
@@ -13,14 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: mcr.microsoft.com/dotnet/sdk:8.0  # Use the .NET SDK version that matches your project's target framework
-
-    services:
-      stylecop:
-        image: mcr.microsoft.com/dotnet/sdk:8.0  # Use the same .NET SDK version as the container
-        options: --entrypoint /bin/sh
-        ports:
-          - 80:80
+      image: mcr.microsoft.com/dotnet/sdk:8.0
 
     steps:
     - uses: actions/checkout@v2
@@ -39,3 +32,25 @@ jobs:
 
     - name: Run Roslyn Analyzers
       run: dotnet build /p:RunAnalyzers=true
+
+  sonarcloud-analysis:
+    runs-on: ubuntu-latest
+
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:8.0
+
+    steps:
+    - name: SonarCloud Scan
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        # Add .NET Core SDK tools to PATH
+        export PATH="$PATH:/github/home/.dotnet/tools"
+        
+        # Install dotnet-sonarscanner tool
+        dotnet tool install --global dotnet-sonarscanner
+        
+        # Run SonarCloud analysis with correct parameter prefixes
+        dotnet sonarscanner begin /d:sonar.login=${{ secrets.SONAR_TOKEN }} /k:SamRoden22_MemberAdministrationLedub /o:samroden22 /d:sonar.host.url=https://sonarcloud.io
+        dotnet build
+        dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
