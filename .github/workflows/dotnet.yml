@@ -27,11 +27,8 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     # Static Code Analysis Steps
-    - name: Run Roslyn Analyzers
-      run: dotnet build /p:RunAnalyzers=true
-
     - name: Install StyleCop
-      run: dotnet tool install -g StyleCop.Console --add-source https://api.nuget.org/v3/index.json
+      run: dotnet tool install -g StyleCop.Console
 
     - name: Run StyleCop
       run: dotnet build /p:StyleCopEnabled=true
