@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: mcr.microsoft.com/dotnet/sdk:8.0.x  # Use the .NET SDK version that matches your project's target framework
+      image: mcr.microsoft.com/dotnet/sdk:8.0  # Use the .NET SDK version that matches your project's target framework
 
     services:
       stylecop:
-        image: mcr.microsoft.com/dotnet/sdk:8.0.x  # Use the same .NET SDK version as the container
+        image: mcr.microsoft.com/dotnet/sdk:8.0  # Use the same .NET SDK version as the container
         options: --entrypoint /bin/sh
         ports:
           - 80:80
