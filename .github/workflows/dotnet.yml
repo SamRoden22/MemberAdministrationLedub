@@ -1,28 +1,41 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: .NET Core with StyleCop
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:8.0  # Use the .NET SDK version that matches your project's target framework
+
+    services:
+      stylecop:
+        image: mcr.microsoft.com/dotnet/sdk:8.0  # Use the same .NET SDK version as the container
+        options: --entrypoint /bin/sh
+        ports:
+          - 80:80
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+    - uses: actions/checkout@v2
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+    - name: Run StyleCop
+      run: dotnet build /p:StyleCopEnabled=true
+
+    - name: Run Roslyn Analyzers
+      run: dotnet build /p:RunAnalyzers=true
