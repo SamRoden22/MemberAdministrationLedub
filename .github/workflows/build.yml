@@ -27,10 +27,25 @@ jobs:
           mkdir -p ~/sonar/cache
           mkdir -p ./.sonar/scanner
 
-      - name: Print directory structure
+      - name: Install coverlet
+        run: dotnet tool install --global coverlet.console
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      - name: Run tests with coverage
         run: |
-          ls -l ~
-          ls -l ./.sonar
+          dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          find . -name "*.Tests.dll" | xargs -I {} coverlet {} --target "dotnet" --targetargs "test --no-build --configuration Release" --format opencover --output ./coverage/
+
+      - name: Generate code coverage report
+        run: reportgenerator -reports:./coverage/coverage.opencover.xml -targetdir:./coverage/report -reporttypes:HtmlInline_AzurePipelines
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -62,6 +77,6 @@ jobs:
         run: |
           ./.sonar/scanner/dotnet-sonarscanner begin /k:"SamRoden22_MemberAdministrationLedub" /o:"samroden22" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet restore
-          dotnet build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-          dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          dotnet build --configuration Release
+          dotnet test --no-build --configuration Release
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
