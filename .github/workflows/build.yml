@@ -1,4 +1,5 @@
 name: SonarCloud
+
 on:
   push:
     branches:
@@ -48,20 +49,31 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar-scanner
           fail-on-cache-miss: true
 
-      - name: Install SonarCloud scanner
+      - name: Install SonarScanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
         run: |
-          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+          $response = Invoke-WebRequest -Uri 'https://api.github.com/repos/SonarSource/sonar-scanner-msbuild/releases/latest'
+          $downloadUrl = ($response.Content | ConvertFrom-Json).assets[0].browser_download_url
+          Invoke-WebRequest -Uri $downloadUrl -OutFile 'sonar-scanner.zip'
+          Expand-Archive -Path 'sonar-scanner.zip' -DestinationPath '.\sonar-scanner'
+          Remove-Item 'sonar-scanner.zip'
 
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
+      - name: Set SonarScanner CLI in PATH and run sonar-scanner begin
         run: |
-          ./.sonar/scanner/dotnet-sonarscanner begin /k:"SamRoden22_MemberAdministrationLedub" /o:"samroden22" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet restore
+          $env:PATH = "$env:PATH;$(Get-Location)\sonar-scanner\bin"
+          Set-Location -Path "$(Get-Location)\sonar-scanner\bin"
+          ./sonar-scanner begin /k:"SamRoden22_MemberAdministrationLedub" /o:"samroden22" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.projectKey="SamRoden22_MemberAdministrationLedub" /d:sonar.organization="samroden22"
+        env:
+          JAVA_HOME: C:\hostedtoolcache\windows\Java_Zulu_jdk\17.0.11-9\x64
+          JAVA_HOME_17_X64: C:\hostedtoolcache\windows\Java_Zulu_jdk\17.0.11-9\x64
+
+      - name: Build and test
+        run: |
           dotnet build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+      - name: Publish coverage results to SonarCloud
+        run: |
+          dotnet-coverage collect "dotnet test MemberAdministrationLedub.sln" -f xml -o "coverage.xml"
+          ./sonar-scanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
