@@ -1,4 +1,5 @@
 name: SonarCloud
+
 on:
   push:
     branches:
@@ -27,41 +28,31 @@ jobs:
           mkdir -p ~/sonar/cache
           mkdir -p ./.sonar/scanner
 
-      - name: Print directory structure
+      - name: Fetch latest SonarScanner version
+        id: fetch_version
         run: |
-          ls -l ~
-          ls -l ./.sonar
+          $response = Invoke-WebRequest -Uri 'https://api.github.com/repos/SonarSource/sonar-scanner-msbuild/releases/latest'
+          $json = $response.Content | ConvertFrom-Json
+          $version = $json.tag_name -replace 'v', ''
+          echo "Latest SonarScanner version is $version"
+          echo "##vso[task.setvariable variable=latest_version]$version"
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-          fail-on-cache-miss: true
-
-      - name: Cache SonarCloud scanner
-        uses: actions/cache@v3
-        with:
-          path: ./.sonar/scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-          fail-on-cache-miss: true
-
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
+      - name: Download and extract SonarScanner
         run: |
-          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+          $version = '${{ steps.fetch_version.outputs.latest_version }}'
+          $url = "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$version.zip"
+          Invoke-WebRequest -Uri $url -OutFile 'sonar-scanner.zip'
+          Expand-Archive -Path 'sonar-scanner.zip' -DestinationPath '.\sonar-scanner'
+          Remove-Item 'sonar-scanner.zip'
 
-      - name: Build and analyze
+      - name: Set SonarScanner path
+        run: |
+          $env:PATH = "$env:PATH;$(Get-Location)\sonar-scanner\bin"
+
+      - name: Run SonarScanner
+        run: |
+          ./sonar-scanner begin /k:"SamRoden22_MemberAdministrationLedub" /o:"samroden22" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.projectKey="SamRoden22_MemberAdministrationLedub" /d:sonar.organization="samroden22"
+        shell: pwsh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-          ./.sonar/scanner/dotnet-sonarscanner begin /k:"SamRoden22_MemberAdministrationLedub" /o:"samroden22" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet restore
-          dotnet build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-          dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          JAVA_HOME: C:\hostedtoolcache\windows\Java_Zulu_jdk\17.0.11-9\x64
+          JAVA_HOME_17_X64: C:\hostedtoolcache\windows\Java_Zulu_jdk\17.0.11-9\x64
