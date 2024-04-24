@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build and analyze
+    name: Build, Test, and Analyze with SonarCloud
     runs-on: windows-latest
 
     steps:
