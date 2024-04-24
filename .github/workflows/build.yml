@@ -27,41 +27,36 @@ jobs:
           mkdir -p ~/sonar/cache
           mkdir -p ./.sonar/scanner
 
-      - name: Print directory structure
-        run: |
-          ls -l ~
-          ls -l ./.sonar
-
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-          fail-on-cache-miss: true
-
-      - name: Cache SonarCloud scanner
-        uses: actions/cache@v3
-        with:
-          path: ./.sonar/scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-          fail-on-cache-miss: true
-
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
 
+      - name: Download SonarScanner CLI
+        run: |
+          $response = Invoke-WebRequest -Uri 'https://api.github.com/repos/SonarSource/sonar-scanner-msbuild/releases/latest'
+          $json = $response.Content | ConvertFrom-Json
+          $latestVersion = $json.tag_name
+          $downloadUrl = "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$latestVersion.zip"
+          Invoke-WebRequest -Uri $downloadUrl -OutFile 'sonar-scanner.zip'
+          Expand-Archive -Path 'sonar-scanner.zip' -DestinationPath '.\sonar-scanner'
+          Remove-Item 'sonar-scanner.zip'
+
+      - name: Set SonarScanner CLI in PATH
+        run: |
+          $env:PATH += ";$(Get-Location)\sonar-scanner\bin"
+
+      - name: Install dotnet-coverage tool
+        run: dotnet tool install --global dotnet-coverage
+
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
-          ./.sonar/scanner/dotnet-sonarscanner begin /k:"SamRoden22_MemberAdministrationLedub" /o:"samroden22" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet restore
+          sonar-scanner begin /k:"SamRoden22_MemberAdministrationLedub" /o:"samroden22" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.projectKey="SamRoden22_MemberAdministrationLedub" /d:sonar.organization="samroden22"
           dotnet build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet-coverage collect "dotnet test MemberAdministrationLedub.sln" -f xml -o "coverage.xml"
+          sonar-scanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
