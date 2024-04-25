@@ -30,17 +30,42 @@ namespace MemberAdministrationLedubCore.Services
 
         public Team Create(Team team, List<int> memberIds)
         {
+            ValidateTeamAndMemberIds(team, memberIds);
             return _teamRepository.Create(team, memberIds);
         }
 
         public Team Update(int id, Team updatedTeam, List<int> memberIds)
         {
+            ValidateTeamAndMemberIds(updatedTeam, memberIds);
             return _teamRepository.Update(id, updatedTeam, memberIds);
         }
 
         public Team Delete(int id)
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Id must be greater than zero", nameof(id));
+            }
+
             return _teamRepository.Delete(id);
+        }
+
+        private void ValidateTeamAndMemberIds(Team team, List<int> memberIds)
+        {
+            if (team == null)
+            {
+                throw new ArgumentNullException(nameof(team));
+            }
+
+            if (memberIds == null)
+            {
+                throw new ArgumentNullException(nameof(memberIds), "MemberIds cannot be null");
+            }
+
+            if (memberIds.Count == 0)
+            {
+                throw new ArgumentException("MemberIds cannot be empty", nameof(memberIds));
+            }
         }
     }
 }
