@@ -1,4 +1,4 @@
-name: .NET Core with StyleCop
+name: .NET Core with StyleCop 
 
 on:
   push:
