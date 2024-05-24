@@ -1,6 +1,7 @@
 ﻿using MemberAdministrationLedubCore.Interfaces;
 using MemberAdministrationLedubCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,10 +12,12 @@ namespace MemberAdministrationLedub.Controllers
     public class MemberController : ControllerBase
     {
         private readonly IMemberService _memberService;
+        private readonly IHubContext<HubClass> _hubContext;
 
-        public MemberController(IMemberService memberService)
+        public MemberController(IMemberService memberService, IHubContext<HubClass> hubContext)
         {
             _memberService = memberService;
+            _hubContext = hubContext;
         }
 
         // GET: api/<MemberController>
@@ -49,7 +52,6 @@ namespace MemberAdministrationLedub.Controllers
         [Route("PutMember/{id}")]
         public Member Put(int id, [FromBody] Member value)
         {
-            //var existingMember = _memberService.Get(id);
             var member = _memberService.Update(id, value);
             return member;
         }
@@ -57,10 +59,11 @@ namespace MemberAdministrationLedub.Controllers
         // DELETE api/<MemberController>/5
         [HttpDelete]
         [Route("DeleteMember/{id}")]
-        public Member Delete(int id)
+        public async Task<ActionResult<Member>> Delete(int id)
         {
             var member = _memberService.Delete(id);
-            return member;
+            await _hubContext.Clients.All.SendAsync("MemberDeleted", id.ToString());
+            return Ok(member);
         }
     }
 }

@@ -9,9 +9,9 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["MemberAdministrationLedub/MemberAdministrationLedub.csproj", "MemberAdministrationLedub/"]
-COPY ["MemberAdministrationLedubCore/MemberAdministrationLedubCore.csproj", "MemberAdministrationLedubCore/"]
-COPY ["MemberAdministrationLedubDAL/MemberAdministrationLedubDAL.csproj", "MemberAdministrationLedubDAL/"]
+COPY ["../MemberAdministrationLedub/MemberAdministrationLedub.csproj", "MemberAdministrationLedub/"]
+COPY ["../MemberAdministrationLedubCore/MemberAdministrationLedubCore.csproj", "MemberAdministrationLedubCore/"]
+COPY ["../MemberAdministrationLedubDAL/MemberAdministrationLedubDAL.csproj", "MemberAdministrationLedubDAL/"]
 RUN dotnet restore "./MemberAdministrationLedub/MemberAdministrationLedub.csproj"
 COPY . .
 WORKDIR "/src/MemberAdministrationLedub"
