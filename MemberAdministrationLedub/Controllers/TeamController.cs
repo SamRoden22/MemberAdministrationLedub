@@ -20,7 +20,6 @@ namespace MemberAdministrationLedub.Controllers
 
         // GET: api/<TeamController>
         [HttpGet]
-        [Route("GetAllTeams")]
         public List<Team> Get()
         {
             var teams = _teamService.Get();
@@ -28,8 +27,7 @@ namespace MemberAdministrationLedub.Controllers
         }
 
         // GET api/<TeamController>/5
-        [HttpGet]
-        [Route("GetSpecificTeam/{id}")]
+        [HttpGet("{id}")]
         public Team Get(int id)
         {
             var team = _teamService.Get(id);
@@ -38,7 +36,6 @@ namespace MemberAdministrationLedub.Controllers
 
         // POST api/<TeamController>
         [HttpPost]
-        [Route("PostTeam")]
         public Team Post([FromBody] TeamViewModel teamViewModel)
         {
             if (teamViewModel == null || teamViewModel.Team == null || teamViewModel.MemberIds.Count == 0)
@@ -50,9 +47,8 @@ namespace MemberAdministrationLedub.Controllers
         }
 
         // PUT api/<TeamController>/5
-        [HttpPut]
-        [Route("PutTeam/{id}")]
-        public Team Put(int id, [FromBody] TeamViewModel updatedTeam)
+        [HttpPut("{id}")]
+        public ActionResult<Team> Put(int id, [FromBody] TeamViewModel updatedTeam)
         {
             var team = _teamService.Update(id, updatedTeam.Team, updatedTeam.MemberIds);
             return team;
@@ -60,9 +56,8 @@ namespace MemberAdministrationLedub.Controllers
 
 
         // DELETE api/<TeamController>/5
-        [HttpDelete]
-        [Route("DeleteTeam/{id}")]
-        public Team Delete(int id)
+        [HttpDelete("{id}")]
+        public ActionResult<Team> Delete(int id)
         {
             var team = _teamService.Delete(id);
             return team;
