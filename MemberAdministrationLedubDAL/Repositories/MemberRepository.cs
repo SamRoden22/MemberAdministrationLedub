@@ -37,6 +37,10 @@ namespace MemberAdministrationLedubDAL.Repositories
         
         public Member Update(int id, Member updatedMember)
         {
+            if (updatedMember.Name == "" || updatedMember.Name == null)
+            {
+                return null;
+            }
             var existingMember = _context.Members.Find(id);
             if (existingMember == null)
             {

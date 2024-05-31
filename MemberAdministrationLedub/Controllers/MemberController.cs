@@ -22,7 +22,6 @@ namespace MemberAdministrationLedub.Controllers
 
         // GET: api/<MemberController>
         [HttpGet]
-        [Route("GetAllMembers")]
         public List<Member> Get()
         {
             var members = _memberService.GetAll();
@@ -30,8 +29,7 @@ namespace MemberAdministrationLedub.Controllers
         }
 
         // GET api/<MemberController>/5
-        [HttpGet]
-        [Route("GetSpecificMember/{id}")]
+        [HttpGet("{id}")]
         public Member Get(int id)
         {
             var member = _memberService.Get(id);
@@ -40,7 +38,6 @@ namespace MemberAdministrationLedub.Controllers
 
         // POST api/<MemberController>
         [HttpPost]
-        [Route("PostMember")]
         public Member Post([FromBody] Member value)
         {
             var member = _memberService.Create(value);
@@ -48,17 +45,15 @@ namespace MemberAdministrationLedub.Controllers
         }
 
         // PUT api/<MemberController>/5
-        [HttpPut]
-        [Route("PutMember/{id}")]
-        public Member Put(int id, [FromBody] Member value)
+        [HttpPut("{id}")]
+        public ActionResult<Member> Put(int id, [FromBody] Member value)
         {
             var member = _memberService.Update(id, value);
             return member;
         }
 
         // DELETE api/<MemberController>/5
-        [HttpDelete]
-        [Route("DeleteMember/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Member>> Delete(int id)
         {
             var member = _memberService.Delete(id);
